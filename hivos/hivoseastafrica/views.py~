@@ -1,0 +1,19 @@
+from django.http import HttpResponseRedirect
+from usermanagement.models import Menus
+from services.views import *
+from fundmanagement.views import *
+from masterdata.views import *
+
+def redirect_to(request, slug = None):
+    try:
+        menus = Menus.objects.get(slug=slug)
+        if menus.name == "Service":
+            return service_home(request)
+        elif menus.name == "Fund Management":
+            return main_data(request)
+        elif menus.name == "Master Data":
+            return master_data(request)
+    except Exception as e:
+        print e.message
+        pass
+    return HttpResponseRedirect('/')
